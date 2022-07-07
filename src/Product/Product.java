@@ -15,9 +15,6 @@ public class Product implements Serializable {
         id = ++count;
         this.name = name;
         this.amount = amount;
-//        Locale localeVN = new Locale("vi", "VN");
-//        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-//        price = currencyVN.format(price);
         this.price = price;
     }
 
@@ -55,6 +52,9 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
+//        Locale localeVN = new Locale("vi", "VN");
+//        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+//        System.out.println("Tong so tien la : "+currencyVN.format(price)+" VND");
         return "Product{" +
                 "Ma san pham=" + id +
                 ", name=" + name +

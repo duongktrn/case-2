@@ -5,8 +5,10 @@ import Acount.UserGuest;
 import Product.ManagerProduct;
 
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class PaymentProduct {
@@ -72,7 +74,9 @@ public class PaymentProduct {
             System.out.println(carts.get(i).displayFullCart());
             sum += carts.get(i).getPricePay();
         }
-        System.out.println("Tong so tien la : "+sum+" VND");
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        System.out.println("Tong so tien la : "+currencyVN.format(sum)+" VND");
     }
     public static void displayCartByUser(){
         readCart();
@@ -83,7 +87,9 @@ public class PaymentProduct {
                 sum += carts.get(i).getPricePay() * (long) carts.get(i).amountPay;
             }
         }
-        System.out.println("Tong tien thanh toan la: "+sum+" VND");
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        System.out.println("Tong tien thanh toan la: "+currencyVN.format(sum)+" VND");
     }
     public static int checkCartUser(int amountPay,int choice){
         for (int i =0;i<carts.size();i++){

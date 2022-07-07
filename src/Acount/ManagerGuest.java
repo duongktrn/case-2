@@ -36,6 +36,12 @@ public class ManagerGuest {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ten dang nhap muon tao");
         String name = scanner.nextLine();
+        while (name!="") {
+            if (name == "") {
+                System.out.println("Khong duoc de trong ten dang nhap,vui long nhap lai");
+                name = scanner.nextLine();
+            }
+        }
         while (checkUser(name)==true){
             System.out.println("Ten dang nhap da ton tai,vui long nhap ten khac");
             name = scanner.nextLine();

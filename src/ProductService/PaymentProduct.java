@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class PaymentProduct {
-    static List<Cart> carts = new ArrayList<>();
+    public static List<Cart> carts = new ArrayList<>();
     static File file = new File("D:\\MD2\\Modun2\\Case Study 2\\src\\Data\\cart.txt");
     static boolean checkAddCart = true;
     static UserGuest userGuest=null;

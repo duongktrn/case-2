@@ -1,9 +1,15 @@
 package Acount;
 
+import Product.ManagerProduct;
+import ProductService.Cart;
+import ProductService.PaymentProduct;
+
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ManagerGuest {
     static File file = new File("D:\\MD2\\Modun2\\Case Study 2\\src\\Data\\user.txt");
@@ -36,9 +42,10 @@ public class ManagerGuest {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ten dang nhap muon tao");
         String name = scanner.nextLine();
-        while (name!="") {
-            if (name == "") {
-                System.out.println("Khong duoc de trong ten dang nhap,vui long nhap lai");
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]{3,18}$");
+        while (p.matcher(name).find()==false) {
+            if (!p.matcher(name).find()) {
+                System.err.println("Ten dang nhap phai bat dau bang 1 so hoac 1 chu cai va co do dai tu 3-18 ky tu,vui long nhap lai");
                 name = scanner.nextLine();
             }
         }
@@ -48,6 +55,13 @@ public class ManagerGuest {
         }
         System.out.println("Mat khau muon tao");
         String pass = scanner.nextLine();
+        while (p.matcher(pass).find()==false) {
+            if (!p.matcher(pass).find()) {
+                System.err.println("Pass phai bat dau bang 1 so hoac 1 chu cai va co do dai tu 3-18 ky tu,vui long nhap lai");
+                pass = scanner.nextLine();
+            }
+        }
+        checkDeleteLoginProduct(name);
         return new UserGuest(name, pass);
     }
     public static boolean checkUser(String name){
@@ -57,6 +71,26 @@ public class ManagerGuest {
             }
         }
         return false;
+    }
+    public static void checkDeleteLoginProduct(String userName){
+        boolean checkUserName = false;
+        for (int i =0;i<PaymentProduct.carts.size();i++){
+            if (userName.equals(PaymentProduct.carts.get(i).getUserGuest().getUser())){
+                checkUserName=true;
+                break;
+            }
+        }
+        if (checkUserName){
+            int j = PaymentProduct.carts.size();
+            for (int i =0;i<j&&j>0;i++){
+                if (userName.equals(PaymentProduct.carts.get(i).getUserGuest().getUser())){
+                    PaymentProduct.carts.remove(i);
+                    i=-1;
+                    j--;
+                }
+            }
+            PaymentProduct.saveCart();
+        }
     }
     public static void deleteUser(Scanner scanner){
         displayUser();
@@ -69,7 +103,6 @@ public class ManagerGuest {
                 System.out.println("xoa thanh cong user: "+registers.get(i).getUser());
                 registers.remove(registers.get(i));
                 saveUser();
-                System.out.println("xoa thanh cong ");
                 check=false;
                 break;
                 }

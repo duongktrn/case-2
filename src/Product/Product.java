@@ -1,6 +1,8 @@
 package Product;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Product implements Serializable {
     public int id;
@@ -13,6 +15,9 @@ public class Product implements Serializable {
         id = ++count;
         this.name = name;
         this.amount = amount;
+//        Locale localeVN = new Locale("vi", "VN");
+//        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+//        price = currencyVN.format(price);
         this.price = price;
     }
 

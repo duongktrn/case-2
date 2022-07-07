@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Catolog implements Serializable {
     public String name;
     public Catolog(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     public String getName() {

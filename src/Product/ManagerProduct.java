@@ -1,9 +1,5 @@
 package Product;
 
-import ProductService.Cart;
-import ProductService.ManagerCart;
-import ProductService.PaymentProduct;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +12,10 @@ public class ManagerProduct {
     static List<Catolog> catologs = new ArrayList<>();
 
     public static void menuCatolog() {
-        catologs.add(new Catolog("Iphone8"));
-        catologs.add(new Catolog("Iphone10"));
-        catologs.add(new Catolog("Iphone11"));
-        catologs.add(new Catolog("Iphone12"));
+        catologs.add(new Catolog("IPHONE 8"));
+        catologs.add(new Catolog("IPHONE 10"));
+        catologs.add(new Catolog("IPHONE 11"));
+        catologs.add(new Catolog("IPHONE 12"));
     }
     public static Catolog creatCatolog(){
         displayCatolog();
@@ -27,19 +23,19 @@ public class ManagerProduct {
         System.out.println("Nhap ten san pham : ");
         String name = scanner.nextLine();
         checkNameCatolog(name);
-        while (checkNameCatolog(name)==true){
+        while (checkNameCatolog(name)!=-1){
             System.out.println("da ton tai ten san pham,vui long nhap lai");
             name=scanner.nextLine();
         }
         return new Catolog(name);
     }
-    public static boolean checkNameCatolog(String name){
+    public static int checkNameCatolog(String name){
         for (int i=0;i<catologs.size();i++){
-            if (name.equals(catologs.get(i).getName())){
-                return true;
+            if (name.toUpperCase().equals(catologs.get(i).getName().toUpperCase())){
+                return i;
             }
         }
-        return false;
+        return -1;
     }
     public static void saveCatolog(){
         try {
@@ -96,7 +92,7 @@ public class ManagerProduct {
             catologs.add(catolog);
             saveCatolog();
         }
-        if (0<choiceNameByProduct&&choiceNameByProduct<4){
+        if (0<choiceNameByProduct&&choiceNameByProduct<5){
             catolog = catologs.get(choiceNameByProduct-1);
         }
         System.out.println("Nhap so luong san pham");
@@ -149,30 +145,84 @@ public class ManagerProduct {
                     +"5.Quay lai");
             choice = scanner.nextInt();
             scanner.nextLine();
+            String nameCatolog = "";
             switch (choice){
                 case 1:
                     System.out.println("Nhap ten san pham moi");
-                    String nameCatolog = scanner.nextLine();
-                    products.get(index).getName().setName(nameCatolog);
+                     nameCatolog = scanner.nextLine();
+                     if (nameCatolog==""){
+                         System.out.println("chua nhap ten,vui long nhap lai");
+                         nameCatolog = scanner.nextLine();
+                         if (nameCatolog==""){
+                             System.out.println("nhap sai nua roi,vui long thu lai");
+                             break;
+                         }
+                     }
+                    if (checkNameCatolog(nameCatolog.toUpperCase())==-1){
+                        String catologDelete = products.get(index).getName().getName();
+                        products.get(index).getName().setName(nameCatolog.toUpperCase());
+                        catologs.add(new Catolog(nameCatolog));
+                        int checkName1 = checkNameCatolog(catologDelete.toUpperCase());
+                        if (checkName1!=0&&checkName1!=1&&checkName1!=2&&checkName1!=3) {
+                            catologs.remove(checkName1);
+                        }
+                    }else {
+                        System.out.println("Da ton tai san pham,vui long chon ten san pham khac");
+                        nameCatolog = scanner.nextLine();
+                        if (nameCatolog==""||checkNameCatolog(nameCatolog.toUpperCase())!=-1){
+                            System.out.println("nhap sai nua roi");
+                            break;
+                        }
+                    }
+                    saveProduct();
+                    saveCatolog();
                     System.out.println("Cap nhat ten san pham thanh cong");
+                    choice=5;
                     break;
                 case 2:
                     System.out.println("Nhap amount moi");
                     int amount = Integer.parseInt(scanner.nextLine());
                     products.get(index).setAmount(amount);
+                    saveProduct();
                     System.out.println("Cap nhat so luong san pham thanh cong");
+                    choice=5;
                     break;
                 case 3:
                     System.out.println("Nhap price moi");
                     double price = scanner.nextDouble();
                     scanner.nextLine();
                     products.get(index).setPrice(price);
+                    saveProduct();
                     System.out.println("Cap nhat gia san pham thanh cong");
+                    choice=5;
                     break;
                 case 4:
                     System.out.println("Nhap ten san pham moi");
-                    String nameCatolog1 = scanner.nextLine();
-                    products.get(index).getName().setName(nameCatolog1);
+                    nameCatolog = scanner.nextLine();
+                    if (nameCatolog==""){
+                        System.out.println("chua nhap ten,vui long nhap lai");
+                        nameCatolog = scanner.nextLine();
+                        if (nameCatolog==""){
+                            System.out.println("nhap sai nua roi,vui long thu lai");
+                            break;
+                        }
+                    }
+                    if (checkNameCatolog(nameCatolog.toUpperCase())==-1){
+                        String catologDelete = products.get(index).getName().getName();
+                        products.get(index).getName().setName(nameCatolog.toUpperCase());
+                        catologs.add(new Catolog(nameCatolog));
+                        int checkName1 = checkNameCatolog(catologDelete.toUpperCase());
+                        if (checkName1!=0&&checkName1!=1&&checkName1!=2&&checkName1!=3) {
+                            catologs.remove(checkName1);
+                        }
+                    }else {
+                        System.out.println("Da ton tai san pham,vui long chon ten san pham khac");
+                        nameCatolog = scanner.nextLine();
+                        if (nameCatolog==""||checkNameCatolog(nameCatolog.toUpperCase())!=-1){
+                            System.out.println("nhap sai nua roi");
+                            break;
+                        }
+                    }
                     System.out.println("Cap nhat ten san pham thanh cong");
                     System.out.println("Nhap amount moi");
                     int amount1 = Integer.parseInt(scanner.nextLine());
@@ -183,6 +233,9 @@ public class ManagerProduct {
                     scanner.nextLine();
                     products.get(index).setPrice(price1);
                     System.out.println("Cap nhat gia san pham thanh cong");
+                    saveProduct();
+                    saveCatolog();
+                    choice=5;
                     break;
 
             }
@@ -191,35 +244,41 @@ public class ManagerProduct {
         saveProduct();
     }
     public static void deleteProduct(Scanner scanner){
-        int choiceDelete = Integer.parseInt(scanner.nextLine());
-        int checkIdDelete = 0;
-        boolean checkDelete = true;
-        while (checkDelete==true){
-            for (int i=0;i<products.size();i++){
-                if (choiceDelete==products.get(i).getId()){
-                    checkIdDelete = i;
-                    break;
-                }else {
-                    checkIdDelete=-1;
+        if (products.size()==0){
+            System.out.println("Kho hang dang trong");
+            System.out.println("--------------------------");
+        }else {
+            System.out.println("Chon ma san pham muon xoa :");
+            int choiceDelete = Integer.parseInt(scanner.nextLine());
+            int checkIdDelete = 0;
+            boolean checkDelete = true;
+            while (checkDelete == true) {
+                for (int i = 0; i < products.size(); i++) {
+                    if (choiceDelete == products.get(i).getId()) {
+                        checkIdDelete = i;
+                        break;
+                    } else {
+                        checkIdDelete = -1;
+                    }
                 }
-            }
-            if (checkIdDelete!=-1) {
-                System.out.println("Chon : \n"+"1.Dong y xoa        "+"2.Huy xoa");
-                int choice = Integer.parseInt(scanner.nextLine());
-                if (choice==1){
-                    products.remove(products.get(checkIdDelete));
-                    checkDelete = false;
-                    saveProduct();
-                    System.out.println("xoa thanh cong san pham");
+                if (checkIdDelete != -1) {
+                    System.out.println("Chon : \n" + "1.Dong y xoa        " + "2.Huy xoa");
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    if (choice == 1) {
+                        products.remove(products.get(checkIdDelete));
+                        checkDelete = false;
+                        saveProduct();
+                        System.out.println("xoa thanh cong san pham");
+                    }
+                    if (choice == 2) {
+                        System.out.println("Ban da huy uu cau xoa");
+                        checkDelete = false;
+                    }
+                } else {
+                    System.out.println("Khong ton tai ma san pham,vui long nhap lai");
+                    choiceDelete = Integer.parseInt(scanner.nextLine());
+                    checkDelete = true;
                 }
-                if (choice==2){
-                    System.out.println("Ban da huy uu cau xoa");
-                    checkDelete=false;
-                }
-            }else{
-                System.out.println("Khong ton tai ma san pham,vui long nhap lai");
-                choiceDelete = Integer.parseInt(scanner.nextLine());
-                checkDelete = true;
             }
         }
 
@@ -252,6 +311,9 @@ public class ManagerProduct {
     }
     public static void displayProduct(){
         readProduct();
+        if (products.size()==0){
+            System.out.println("Chua co san pham");
+        }
         for (Product b:products){
             System.out.println(b);
         }
@@ -264,13 +326,21 @@ public class ManagerProduct {
         }
         return -1;
     }
-    public static void displayPayProduct(int choice){
-        if (checkIdPay(choice)==-1){
-            System.out.println("khong ton tai ma san pham");
-        }else {
-            System.out.println("Ban da lua chon san pham:");
-            System.out.println( products.get(checkIdPay(choice)));;
+    public static int displayPayProduct(int choice){
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            if (checkIdPay(choice) == -1) {
+                System.out.println("khong ton tai ma san pham,vui long nhap lai");
+                choice = Integer.parseInt(scanner.nextLine());
+            }else {
+                break;
+            }
         }
+//        else {
+//            System.out.println("Ban da lua chon san pham:");
+//            System.out.println( products.get(checkIdPay(choice)));;
+//        }
+        return choice;
     }
     public static boolean checkAmountPay(int amount,int choice){
         if (amount<=products.get(checkIdPay(choice)).getAmount()){
@@ -279,32 +349,29 @@ public class ManagerProduct {
             return false;
         }
     }
-    public static void payProduct(int choice,int amountPay){
-        System.out.println("Chon:\n"+ "1.Thanh toan    "+"2.Them vao gio hang      "+"3.Huy lua chon");
+    public static boolean payProduct(int choice,int amountPay){
+        System.out.println("Chon:\n"+ "1.Thanh toan    "+ "2.Huy lua chon");
         Scanner scanner = new Scanner(System.in);
         int inputPay = Integer.parseInt(scanner.nextLine());
+        boolean checkPayAdd = true;
         do {
             switch (inputPay){
                 case 1:
                     int amount = products.get(checkIdPay(choice)).getAmount() - amountPay ;
                     products.get(checkIdPay(choice)).setAmount(amount);
                     saveProduct();
+                    System.out.println("Thanh toan thanh cong,kiem tra trong muc Quan ly don hang");
+                    checkPayAdd = true;
                     inputPay=3;
                     break;
                 case 2:
-                    String name = products.get(checkIdPay(choice)).getName().getName();
-                    double price = products.get(checkIdPay(choice)).getPrice();
-                    PaymentProduct.carts1.add(new Cart(choice,name,amountPay,price));
-                    displayCarts1();
+                    System.out.println("Ban da huy don hang");
+                    checkPayAdd = false;
                     inputPay=3;
                     break;
             }
         }while (inputPay!=3);
-    }
-    public static void displayCarts1(){
-        for (Cart b:PaymentProduct.carts1){
-            System.out.println(b);
-        }
+        return checkPayAdd;
     }
     public static String payNameCatolog(int choice){
         return  products.get(checkIdPay(choice)).getName().getName();

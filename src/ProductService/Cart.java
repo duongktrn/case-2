@@ -1,16 +1,31 @@
 package ProductService;
 
-public class Cart {
+import Acount.UserGuest;
+
+import java.io.Serializable;
+
+public class Cart implements Serializable {
     public int id;
     public String namePay;
     public int amountPay;
     public double pricePay;
+    public UserGuest userGuest;
 
-    public Cart(int id, String namePay, int amountPay, double pricePay) {
+
+    public UserGuest getUserGuest() {
+        return userGuest;
+    }
+
+    public void setUserGuest(UserGuest userGuest) {
+        this.userGuest = userGuest;
+    }
+
+    public Cart(int id, String namePay, int amountPay, double pricePay, UserGuest userGuest) {
         this.id = id;
         this.namePay = namePay;
         this.amountPay = amountPay;
         this.pricePay = pricePay;
+        this.userGuest = userGuest;
     }
 
     public int getId() {
@@ -52,6 +67,16 @@ public class Cart {
                 ", namePay='" + namePay + '\'' +
                 ", amountPay=" + amountPay +
                 ", pricePay=" + pricePay +
+                '}';
+    }
+
+    public String displayFullCart(){
+        return "Cart{" +
+                "id=" + id +
+                ", namePay='" + namePay + '\'' +
+                ", amountPay=" + amountPay +
+                ", pricePay=" + pricePay +
+                ", userGuest=" + userGuest +
                 '}';
     }
 }

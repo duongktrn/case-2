@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class ManagerGuest {
     static File file = new File("D:\\MD2\\Modun2\\Case Study 2\\src\\Data\\user.txt");
-    static List<UserGuest> registers = new ArrayList<>();
+    public static List<UserGuest> registers = new ArrayList<>();
+    public static int indexCustomer ;
     public static void addUser() {
         UserGuest register = creatUser();
         registers.add(register);
@@ -111,7 +112,8 @@ public class ManagerGuest {
              System.out.println("sai pass dang nhap,vui long nhap lai");
              pass = scanner.nextLine();
          }
-        System.out.println("dang nhap khac hang thanh cong");
+         indexCustomer = checkUserName(user);
+        System.out.println("dang nhap khach hang thanh cong");
     }
     public static int checkUserName(String user){
         readUser();

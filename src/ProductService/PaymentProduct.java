@@ -76,7 +76,7 @@ public class PaymentProduct {
         }
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-        System.out.println("Tong so tien la : "+currencyVN.format(sum)+" VND");
+        System.err.println("Tong so tien la : "+currencyVN.format(sum)+" VND");
     }
     public static void displayCartByUser(){
         readCart();
@@ -89,7 +89,7 @@ public class PaymentProduct {
         }
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-        System.out.println("Tong tien thanh toan la: "+currencyVN.format(sum)+" VND");
+        System.err.println("Tong tien thanh toan la: "+currencyVN.format(sum)+" VND");
     }
     public static int checkCartUser(int amountPay,int choice){
         for (int i =0;i<carts.size();i++){
@@ -102,13 +102,6 @@ public class PaymentProduct {
         }
         return -1;
     }
-//    public static double totalPay() {
-//        double sum = 0;
-//        for (int i = 0; i < carts.size(); i++) {
-//            sum += carts.get(i).getPricePay() * (double) carts.get(i).amountPay;
-//        }
-//        return sum;
-//    }
 
     public static void saveCart() {
         try {
